@@ -1,38 +1,45 @@
-import { useMemo, useRef } from 'react'
-import * as THREE from 'three'
+import { useMemo, useState } from 'react'
 import { Text } from '@react-three/drei'
 
 const iconEmojis = ['⚙️', '👤', '🔔', '✉️', '📷', '❤️', '⭐', '☁️']
 
 function TextureIcon({ position, emoji }) {
-  const meshRef = useRef()
+  const [hovered, setHovered] = useState(false)
+  const handleClick = () => console.log(`Mesh (Texture) Clicked: ${emoji}`)
   
-  // Create a button-like geometry (rounded box or plane)
   return (
-    <group position={position}>
-      {/* Button Background */}
+    <group 
+      position={position}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+      onClick={handleClick}
+    >
       <mesh castShadow receiveShadow>
-        <boxGeometry args={[1, 1, 0.1]} />
+        <cylinderGeometry args={[0.7, 0.7, 0.1, 32]} />
         <meshStandardMaterial 
-          color="#222" 
-          metalness={0.8} 
-          roughness={0.2} 
-          emissive="#111"
+          color={hovered ? "#4ecdc4" : "#222"} 
+          metalness={0.9} 
+          roughness={0.1} 
+          emissive={hovered ? "#4ecdc4" : "#111"}
+          emissiveIntensity={hovered ? 0.5 : 0.2}
         />
-        {/* Border */}
-        <lineSegments>
-          <edgesGeometry args={[new THREE.BoxGeometry(1, 1, 0.1)]} />
-          <lineBasicMaterial color="white" transparent opacity={0.3} />
-        </lineSegments>
+        {/* Simple texture simulation with wireframe overlay */}
+        {/* <meshStandardMaterial 
+          color="white" 
+          transparent 
+          opacity={0.1} 
+          wireframe 
+        /> */}
       </mesh>
 
-      {/* Emoji Label (using Drei Text which uses Signed Distance Fields / Textures) */}
       <Text
-        position={[0, 0, 0.06]}
-        fontSize={0.5}
+        position={[0, 0.11, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        fontSize={0.6}
         color="white"
         anchorX="center"
         anchorY="middle"
+        transformScale={hovered ? 1.2 : 1}
       >
         {emoji}
       </Text>

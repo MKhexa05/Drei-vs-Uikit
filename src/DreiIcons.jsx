@@ -42,26 +42,31 @@ export function DreiIconGrid({ count = 800, visible = true, portal }) {
 
 function DreiIconContent({ emoji }) {
   const [hovered, setHovered] = useState(false)
+  const handleClick = () => console.log(`Drei (DOM) Clicked: ${emoji}`)
+  
   return (
     <div 
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
+      onClick={handleClick}
       style={{ 
-        background: hovered ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)', 
-        backdropFilter: 'blur(10px)',
+        background: hovered ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)', 
+        backdropFilter: 'blur(12px)',
         padding: '12px',
         borderRadius: '50%',
-        border: `2px solid ${hovered ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)'}`,
+        border: `2px solid ${hovered ? '#4ecdc4' : 'rgba(255,255,255,0.3)'}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
         fontSize: '24px',
         color: 'white',
-        width: '40px',
-        height: '40px',
-        transition: 'all 0.1s ease',
-        transform: hovered ? 'scale(1.2)' : 'scale(1)'
+        width: '45px',
+        height: '45px',
+        transition: 'all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transform: hovered ? 'scale(1.25) translateY(-5px)' : 'scale(1)',
+        boxShadow: hovered ? '0 10px 20px rgba(0,0,0,0.4)' : '0 4px 10px rgba(0,0,0,0.2)',
+        pointerEvents: 'auto'
       }}
     >
       {emoji}

@@ -9,7 +9,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 
-const Viewport = ({ type, iconCount, showIcons, autoRotate }) => {
+const Viewport = ({ type, iconCount, showIcons, autoRotate,perfPos }) => {
   const portalContainer = useRef()
 
   return (
@@ -36,7 +36,7 @@ const Viewport = ({ type, iconCount, showIcons, autoRotate }) => {
         >
           <Perf 
             key={type}
-            position="top-left"
+            position={`${perfPos}`}
             theme="dark" 
             showGraph={true} 
             chart={{ hz: 60, length: 120 }}
@@ -109,10 +109,10 @@ export default function App() {
       </header>
       
       <main style={{ flex: 1, display: 'flex', width: '100%', height: 'calc(100% - 50px)', flexWrap: 'wrap' }}>
-        {showDrei && <Viewport type="drei" iconCount={iconCount} showIcons={showDrei} autoRotate={autoRotate} />}
-        {showUIKit && <Viewport type="uikit" iconCount={iconCount} showIcons={showUIKit} autoRotate={autoRotate} />}
-        {showMesh && <Viewport type="mesh" iconCount={iconCount} showIcons={showMesh} autoRotate={autoRotate} />}
-        {showTextGeom && <Viewport type="textgeom" iconCount={iconCount} showIcons={showTextGeom} autoRotate={autoRotate} />}
+        {showDrei && <Viewport type="drei" iconCount={iconCount} showIcons={showDrei} autoRotate={autoRotate} perfPos={'top-left'}/>}
+        {showUIKit && <Viewport type="uikit" iconCount={iconCount} showIcons={showUIKit} autoRotate={autoRotate} perfPos={'top-right'}/>}
+        {showMesh && <Viewport type="mesh" iconCount={iconCount} showIcons={showMesh} autoRotate={autoRotate} perfPos={'bottom-left'}/>}
+        {showTextGeom && <Viewport type="textgeom" iconCount={iconCount} showIcons={showTextGeom} autoRotate={autoRotate} perfPos={'bottom-right'}/>}
       </main>
     </div>
   )

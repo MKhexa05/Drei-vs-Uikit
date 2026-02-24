@@ -5,6 +5,7 @@ const iconEmojis = ['⚙️', '👤', '🔔', '✉️', '📷', '❤️', '⭐',
 
 function UIKitIcon({ position, emoji }) {
   const [hovered, setHovered] = useState(false)
+  const handleClick = () => console.log(`UIKit (SDF) Clicked: ${emoji}`)
 
   return (
     <group position={position}>
@@ -12,22 +13,27 @@ function UIKitIcon({ position, emoji }) {
         <Container 
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
+          onClick={handleClick}
           backgroundColor="white" 
-          backgroundOpacity={hovered ? 0.2 : 0.05}
+          backgroundOpacity={hovered ? 0.3 : 0.1}
           borderRadius={100}
           padding={12}
-          borderWidth={2}
-          borderColor="white"
-          borderOpacity={hovered ? 0.5 : 0.2}
+          borderWidth={4}
+          borderColor={hovered ? "#4ecdc4" : "white"}
+          borderOpacity={hovered ? 0.8 : 0.3}
           alignItems="center"
           justifyContent="center"
-          width={60}
-          height={60}
-          panelBlur={10}
+          width={70}
+          height={70}
+          panelBlur={20}
           cursor="pointer"
-          transformScale={hovered ? 1.2 : 1}
+          transformScale={hovered ? 1.25 : 1}
+          transition={{
+            transformScale: { type: 'spring', stiffness: 300, damping: 20 },
+            backgroundOpacity: { duration: 0.15 }
+          }}
         >
-          <Text fontSize={32}>{emoji}</Text>
+          <Text fontSize={36}>{emoji}</Text>
         </Container>
       </Root>
     </group>

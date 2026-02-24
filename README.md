@@ -17,15 +17,24 @@ To ensure a fair and scientifically accurate benchmark, this application uses **
 *   **How it works**: R3F calculates the world-to-screen projection. It then applies CSS 3D transforms to actual HTML `div` elements living in the DOM.
 *   **Bottleneck**: **Main Thread / CPU**. Since every icon is a DOM element, moving the camera forces the browser's layout engine to update hundreds or thousands of styles every frame. This causes high "Layout" and "Script" time in the browser profile.
 
-### Right: WebGL-Based UI (`@react-three/uikit`)
-*   **Method**: Uses `@react-three/uikit` to render UI as geometric meshes.
-*   **How it works**: UI elements are rendered using Signed Distance Fields (SDF) directly on the GPU. Text and shapes are essentially textures drawn on planes.
-*   **Constraint**: **GPU (Theoretical)**. Because the workload stays within WebGL, it can be highly optimized through batching and doesn't trigger browser layout recalculations. It maintains 60 FPS even with thousands of icons.
+### Viewport 3: Mesh-Based (Drei `<Text />`)
+*   **Method**: Uses standard 3D geometries (`CylinderGeometry`) with Drei's `<Text />` for labeling.
+*   **Performance**: High. Since it's pure WebGL, it avoids DOM overhead entirely.
+
+### Viewport 4: TextGeometry (3D Geometry)
+*   **Method**: Uses Drei's `<Text3D>`, which generates real 3D vertex data from a font.
+*   **Performance**: **GPU Bound**. While it avoids DOM layout costs, it creates millions of triangles at high icon counts. This benchmarks how raw geometry count affects the GPU pipeline.
+
+## 🖱 Interactivity & Interaction
+All buttons across all 4 systems feature:
+1.  **Hover State**: Highlighting and scaling to show responsiveness.
+2.  **Click Interaction**: Logging to console to verify event handling.
+3.  **Visual Parity**: All icons are designed as rounded 3D buttons for a fair "apples-to-apples" comparison.
 
 ## 📊 How to read the Performance (Stats)
-*   **FPS**: The frames per second. Expect the DOM side to drop significantly as you move the camera or increase the icon count.
-*   **CPU**: Shows the time spent on the main thread processing the JS and layout. The DOM side will show much higher peaks here.
-*   **GPU**: Note the draw calls. UIKit is highly optimized and will show very efficient rendering even with high icon counts.
+*   **FPS**: The frames per second.
+*   **Drei board (Top-Left)**: Watch for "Scripting" and "Layout" lag on the DOM side.
+*   **Geometry board (Bottom-Right)**: Watch for "Draw Calls" increasing, which strains the GPU driver.
 
 ## 🚀 Stress Testing
 Use the **Leva Control Panel** to:
