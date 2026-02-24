@@ -1,4 +1,4 @@
-import { useRef, Suspense } from 'react'
+import { useRef } from 'react'
 import { useControls } from 'leva'
 import { DreiIconGrid } from './DreiIcons'
 import { UIKitIconGrid } from './UIKitIcons'

@@ -18,7 +18,7 @@ export function LocalStats({ position = "top-right" }) {
       statsRef.current.innerText = `Calls: ${gl.info.render.calls} | Tris: ${gl.info.render.triangles.toLocaleString()} | Geom: ${gl.info.memory.geometries}`;
       gl.info.reset();
     }
-  }, 100);
+  });
 
   const style = {
     position: "absolute",
@@ -26,7 +26,7 @@ export function LocalStats({ position = "top-right" }) {
     backgroundColor: "rgba(0,0,0,0.7)",
     color: "#00ff00",
     fontFamily: "monospace",
-    fontSize: "20x",
+    fontSize: "10px",
     pointerEvents: "none",
     whiteSpace: "nowrap",
     ...(position.includes("top") ? { top: "5px" } : { bottom: "5px" }),
